@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import CreateUserService from '../services/CreateUserService';
+import { ICreateUserService } from '../../../@types';
 
 class CreateUserController {
+  constructor (private createUserService: ICreateUserService) {}
+
   async execute (req: Request, res: Response): Promise<Response> {
     try {
       const { email, name, admin, password } = req.body;
 
-      const createUserService = new CreateUserService();
-
-      const user = await createUserService.execute({ email, password, name, admin });
+      const user = await this.createUserService.execute({ email, password, name, admin });
 
       return res.json(user);
     } catch (error) {

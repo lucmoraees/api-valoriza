@@ -1,15 +1,12 @@
 import { Router } from "express";
 import EnsureAdmin from "../../middlewares/EnsureAdmin";
 import EnsureAuthenticate from "../../middlewares/EnsureAuthenticate";
-import ListTagsController from "./controllers/ListTagsController";
-import CreateTagController from "./controllers/CreateTagController";
+import createTagFactory from "./factories/CreateTagFactory";
+import listTagsFactory from "./factories/ListTagsFactory";
 
 const tagsRoutes = Router();
 
-const listTagsController = new ListTagsController();
-const createTagController = new CreateTagController();
-
-tagsRoutes.get('/tags', EnsureAuthenticate, listTagsController.execute);
-tagsRoutes.post('/tags', EnsureAuthenticate, EnsureAdmin, createTagController.execute);
+tagsRoutes.get('/tags', EnsureAuthenticate, listTagsFactory().execute);
+tagsRoutes.post('/tags', EnsureAuthenticate, EnsureAdmin, createTagFactory().execute);
 
 export default tagsRoutes;

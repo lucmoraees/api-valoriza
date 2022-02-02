@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import AuthenticateUserService from "../services/AuthenticateUserService";
+import { IAuthenticateUserService } from "../../../@types";
 
 class AuthenticateUserController {
-  async execute(req: Request, res: Response) {
+  constructor(private authenticateUserService: IAuthenticateUserService) {}
+
+  async execute(req: Request, res: Response): Promise<Response> {
     try {
       const { email, password } = req.body;
 
-      const authenticateUserService = new AuthenticateUserService();
-
-      const tokenAuth = await authenticateUserService.execute({ email, password });
+      const tokenAuth = await this.authenticateUserService.execute({ email, password });
 
       return res.json({ tokenAuth })
     } catch (error) {
