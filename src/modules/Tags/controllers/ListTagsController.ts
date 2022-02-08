@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { IListTagsService } from '../../../@types';
+import ListTagsService from '../services/ListTagsService';
 
 class ListTagsController {
-  constructor(private listTagsService: IListTagsService) {}
-
   async execute(req: Request, res: Response): Promise<Response> {
     try {
-      const tags = await this.listTagsService.execute();
+      const listTagsService = new ListTagsService();
+
+      const tags = await listTagsService.execute();
 
       return res.json(tags);      
     } catch (error) {

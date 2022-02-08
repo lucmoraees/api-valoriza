@@ -1,11 +1,12 @@
-import { IComplimentsRepository } from "../../../@types";
+import { getCustomRepository } from "typeorm";
 import Compliment from "../../../database/entities/Compliment";
+import ComplimentsRepository from "../../../repositories/ComplimentsRepository";
 
 class ListReceiveComplimentsService {
-  constructor(private complimentsRepository: IComplimentsRepository) {}
-
   async execute(userId: string): Promise<Compliment[]> {
-    const compliments = await this.complimentsRepository.find({
+    const complimentsRepository = getCustomRepository(ComplimentsRepository)
+
+    const compliments = await complimentsRepository.find({
       where: { user_receiver: userId },
       relations: ['userSender', 'userReceiver', 'tag'],
     });

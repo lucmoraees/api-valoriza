@@ -1,8 +1,10 @@
 import { Router } from "express";
-import authenticateUserFactory from "./factories/AuthenticateUserFactory";
+import AuthenticateUserController from "./controllers/AuthenticateUserController";
 
 const router = Router();
 
-router.post('/signin', authenticateUserFactory().execute);
+const authenticateUserController = new AuthenticateUserController();
+
+router.post('/signin', authenticateUserController.execute);
 
 export default router;

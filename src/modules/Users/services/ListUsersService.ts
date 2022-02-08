@@ -1,12 +1,13 @@
 import { instanceToPlain } from "class-transformer";
-import { IUsersRepository } from "../../../@types";
+import { getCustomRepository } from "typeorm";
 import User from "../../../database/entities/User";
+import UsersRepository from "../../../repositories/UsersRepository";
 
 class ListUsersService {
-  constructor(private usersRepository: IUsersRepository) {}
-
   async execute(): Promise<User[]> {
-    const users = await this.usersRepository.find();
+    const usersRepository = getCustomRepository(UsersRepository);
+
+    const users = await usersRepository.find();
 
     const usersWhitoutPassword = instanceToPlain(users) as User[];
 

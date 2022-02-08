@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { IListUsersService } from '../../../@types';
+import ListUsersService from '../services/ListUsersService';
 
 class ListUsersController {
-  constructor (private listUsersService: IListUsersService) {}
-
   async execute(req: Request, res: Response): Promise<Response> {
     try {
-      const users = await this.listUsersService.execute();
+      const listUsersService = new ListUsersService();
+
+      const users = await listUsersService.execute();
 
       return res.json(users);
     } catch (error) {
