@@ -3,10 +3,10 @@ import Compliment from "../../../database/entities/Compliment";
 import ComplimentsRepository from "../../../repositories/ComplimentsRepository";
 
 class ListSendComplimentsService {
-  async execute(userId: string): Promise<Compliment[]> {
-    const complimentsRepository = getCustomRepository(ComplimentsRepository)
+  constructor (private complimentsRepository: ComplimentsRepository) {}
 
-    const compliments = await complimentsRepository.find({
+  async execute(userId: string): Promise<Compliment[]> {
+    const compliments = await this.complimentsRepository.find({
       where: { user_sender: userId },
       relations: ['userSender', 'userReceiver', 'tag'],
     });

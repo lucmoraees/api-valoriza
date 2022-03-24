@@ -1,10 +1,8 @@
 import { Router } from "express";
-import AuthenticateUserController from "./controllers/AuthenticateUserController";
+import authenticateUserFactory from "./factories/AuthenticateUserFactory";
 
 const router = Router();
 
-const authenticateUserController = new AuthenticateUserController();
-
-router.post('/signin', authenticateUserController.execute);
+router.post('/signin', (req, res) => authenticateUserFactory().execute(req, res));
 
 export default router;

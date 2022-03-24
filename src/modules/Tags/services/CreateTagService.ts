@@ -1,24 +1,23 @@
-import { getCustomRepository } from 'typeorm';
 import { ICreateTag } from '../../../@types';
 import Tag from '../../../database/entities/Tag';
 import ExceptionError from '../../../errors/ExceptionError';
 import TagsRepository from '../../../repositories/TagsRepository';
 
 class CreateTagService {
-  async execute ({ name }: ICreateTag): Promise<Tag> {
-    const tagsRepository = getCustomRepository(TagsRepository);
+  constructor (private tagsRepository: TagsRepository) {}
 
-    const tagExists = await tagsRepository.findOne({ name });
+  async execute ({ name }: ICreateTag): Promise<Tag> {
+    const tagExists = await this.tagsRepository.findOne({ name });
 
     if (tagExists) {
       throw new ExceptionError('Uma tag com esse nome já foi criada');
     }
 
-    const newTag = tagsRepository.create({ name });
+    const newTag = this.tagsRepository.create({ name });
 
     console.log(newTag);
   
-    await tagsRepository.save(newTag);
+    await this.tagsRepository.save(newTag);
 
     return newTag;
   }

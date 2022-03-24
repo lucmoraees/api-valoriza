@@ -1,17 +1,21 @@
 import { Router } from "express";
 import EnsureAuthenticate from "../../middlewares/EnsureAuthenticate";
-import ListReceiveComplimentsController from "./controllers/ListReceiveComplimentsController";
-import ListSendComplimentsController from "./controllers/ListSendComplimentsController";
-import CreateComplimentController from "./controllers/CreateComplimentController";
+import listReceiveComplimentsFactory from "./factories/ListReceiveComplimentsFactory";
+import listSendComplimentsFactory from "./factories/ListSendComplimentsFactory";
+import createComplimentsFactory from "./factories/CreateComplimentsFactory";
 
 const complimentsRoutes = Router();
 
-const listReceiveComplimentsController = new ListReceiveComplimentsController();
-const listSendComplimentsController = new ListSendComplimentsController();
-const createComplimentController = new CreateComplimentController();
+complimentsRoutes.get('/compliments/receive', EnsureAuthenticate, (req, res) => (
+  listReceiveComplimentsFactory().execute(req, res)
+));
 
-complimentsRoutes.get('/compliments/receive', EnsureAuthenticate, listReceiveComplimentsController.execute);
-complimentsRoutes.get('/compliments/send', EnsureAuthenticate, listSendComplimentsController.execute);
-complimentsRoutes.post('/compliments', EnsureAuthenticate, createComplimentController.execute);
+complimentsRoutes.get('/compliments/send', EnsureAuthenticate, (req, res) => (
+  listSendComplimentsFactory().execute(req, res)
+));
+
+complimentsRoutes.post('/compliments', EnsureAuthenticate, (req, res) => (
+  createComplimentsFactory().execute(req, res)
+));
 
 export default complimentsRoutes;

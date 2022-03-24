@@ -6,10 +6,10 @@ import UsersRepository from '../../../repositories/UsersRepository';
 import { createTokenJwt } from '../../../utils';
 
 class AuthenticateUserService {
-  async execute ({ email, password }: IAuthenticateUser) {
-    const usersRepository = getCustomRepository(UsersRepository);
+  constructor (private usersRepository: UsersRepository) {}
 
-    const user = await usersRepository.findOne({ email });
+  async execute ({ email, password }: IAuthenticateUser) {
+    const user = await this.usersRepository.findOne({ email });
 
     if (!user) {
       throw new ExceptionError("Combinação email/senha incorreta");

@@ -1,10 +1,11 @@
+import { getCustomRepository } from "typeorm";
 import ComplimentsRepository from "../../../repositories/ComplimentsRepository";
-import UsersRepository from "../../../repositories/UsersRepository";
 import ListReceiveComplimentsController from "../controllers/ListReceiveComplimentsController";
 import ListReceiveComplimentsService from "../services/ListReceiveComplimentsService";
 
-const listReceiveComplimentssFactory = () => {
-  const complimentsRepository = new ComplimentsRepository();
+const 
+listReceiveComplimentssFactory = () => {
+  const complimentsRepository = getCustomRepository(ComplimentsRepository);
   const listReceiveComplimentsService = new ListReceiveComplimentsService(complimentsRepository);
   const listReceiveComplimentsController = new ListReceiveComplimentsController(listReceiveComplimentsService);
 
